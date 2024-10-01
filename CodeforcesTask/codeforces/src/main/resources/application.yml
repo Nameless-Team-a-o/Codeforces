@@ -1,0 +1,39 @@
+server:
+  port: 9090
+
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_security
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+judge0:
+  callback-url: "http://localhost:9090/api/v1/results/callback"
+  url : "https://judge0-ce.p.sulu.sh/submissions"
+
+
+firstserver:
+  url: "http://localhost:8080"
+
+
+
+
+
+
