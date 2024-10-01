@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_security
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost  # Change this if RabbitMQ is on a different host
+    port: 5672
+    username: guest   # Default username
+    password: guest   # Default password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: namelessorgao@gmail.com
+    password: qunj xnpx zsiw krqo
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+application:
+  security:
+    jwt:
+      accessSecret-key: FDBAB94A50DCF54E37FBB01D23CFED8192C6C94DCC31CAFE24F901F23B859680
+      expiration: 10800000 # 3 hour
+      refresh-token:
+        refreshSecret-key: 622D8BD8A1601531103CF7B87C578EA001A29CABF2394F25B34DAA95C487726D
+        expiration: 86400000  # 1 day
+server:
+  error:
+    include-message: always
+
+secondserver:
+  url: "http://localhost:9090"
