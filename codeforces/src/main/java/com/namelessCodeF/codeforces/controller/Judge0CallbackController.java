@@ -1,6 +1,6 @@
 package com.namelessCodeF.codeforces.controller;
 
-import com.namelessCodeF.codeforces.dto.ResultResponseDTO;
+import com.namelessCodeF.codeforces.dto.Judge0ResponseDTO;
 import com.namelessCodeF.codeforces.service.Judge0CallbackService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class Judge0CallbackController {
 
     @PutMapping
     public ResponseEntity<String> receiveJudgeResult(
-            @RequestBody ResultResponseDTO resultResponse,
+            @RequestBody Judge0ResponseDTO resultResponse,
             @RequestParam(required = false) String submissionId) { // Optional parameter for submission ID
 
         try {

@@ -2,7 +2,7 @@ package com.namelessCodeF.codeforces.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.namelessCodeF.codeforces.dto.ResultResponseDTO;
+import com.namelessCodeF.codeforces.dto.Judge0ResponseDTO;
 import com.namelessCodeF.codeforces.exception.ResultProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class Judge0CallbackService {
     private final ObjectMapper objectMapper;
     private static final Logger logger = LoggerFactory.getLogger(Judge0CallbackService.class);
 
-    public void processResult(ResultResponseDTO resultResponse) {
+    public void processResult(Judge0ResponseDTO resultResponse) {
         try {
 
             resultResponse.setStdoutFromEncoded(resultResponse.getStdout()); // Decode and set stdout

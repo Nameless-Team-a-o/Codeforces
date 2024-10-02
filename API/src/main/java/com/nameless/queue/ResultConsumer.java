@@ -2,8 +2,8 @@ package com.nameless.queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nameless.config.RabbitMQConfig;
-import com.nameless.dto.ResultResponseDTO;
-import com.nameless.service.ResultProcessingService;
+import com.nameless.dto.judge.JudgeResponseDTO;
+import com.nameless.service.judge.ResultProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class ResultConsumer {
     @RabbitListener(queues = RabbitMQConfig.RESULT_QUEUE_NAME)
     public void receiveResult(String resultJson) {
         try {
-            ResultResponseDTO resultResponse = objectMapper.readValue(resultJson, ResultResponseDTO.class);
+            JudgeResponseDTO resultResponse = objectMapper.readValue(resultJson, JudgeResponseDTO.class);
             logger.info("Received result: {}", resultResponse);
             resultProcessingService.processResult(resultResponse);
         } catch (Exception e) {

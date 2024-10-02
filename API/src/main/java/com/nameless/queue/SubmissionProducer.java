@@ -2,14 +2,15 @@ package com.nameless.queue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nameless.dto.SubmissionRequestDTO;
-import com.nameless.dto.JudgeRequestDTO;
+import com.nameless.dto.judge.SubmissionRequestDTO;
+import com.nameless.dto.judge.JudgeRequestDTO;
 import com.nameless.entity.question.model.Question;
 import com.nameless.entity.question.repository.QuestionRepository;
 import com.nameless.entity.submission.model.Submission;
 import com.nameless.entity.submission.repository.SubmissionRepository;
 import com.nameless.entity.user.repository.UserRepository;
 import com.nameless.entity.user.model.User;
+import com.nameless.jwt.JwtService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +30,11 @@ public class SubmissionProducer {
     private final QuestionRepository questionRepository;
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
+    private final JwtService jwtService;
 
     @Transactional
     public boolean createSubmission(SubmissionRequestDTO request) {
-        User user = findUser(request.getUserId());
+        User user = findUser();
         if (user == null) return false;
 
         Question question = findQuestion(request.getQuestionId());
@@ -45,9 +47,10 @@ public class SubmissionProducer {
         return true;
     }
 
-    private User findUser(Long userId) {
+    private User findUser() {
+        String username = jwtService.getAuthenticatedUsername();
         try {
-            return userRepository.findById(userId)
+            return userRepository.findByEmail(username)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
         } catch (EntityNotFoundException e) {
             logError(e.getMessage());

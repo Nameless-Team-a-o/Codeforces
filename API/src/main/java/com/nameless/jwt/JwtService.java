@@ -2,7 +2,7 @@ package com.nameless.jwt;
 
 import com.nameless.entity.refreshToken.model.RefreshToken;
 import com.nameless.entity.refreshToken.repository.RefreshTokenRepository;
-import com.nameless.service.TokenHashingService;
+import com.nameless.service.auth.TokenHashingService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,6 +17,7 @@ import java.util.function.Function;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,14 @@ public class JwtService {
   @Value("${application.security.jwt.refresh-token.expiration}")
   private long refreshExpiration;
 
+  public String getAuthenticatedUsername() {
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof UserDetails) {
+      return ((UserDetails) principal).getUsername(); // Extract username from the token
+    } else {
+      return principal.toString();
+    }
+  }
   public String extractUsernameFromAccess(String token) {
     return extractClaim(token, Claims::getSubject, accessSecretKey);
   }
